@@ -1,0 +1,237 @@
+<html><head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CyberShield: Advanced Fraud Detection System</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        color: #e94560;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        max-width: 600px;
+        width: 100%;
+    }
+
+    h1 {
+        text-align: center;
+        color: #00fff5;
+        margin-bottom: 30px;
+        font-weight: 700;
+        font-size: 2.5em;
+        text-shadow: 0 0 10px rgba(0, 255, 245, 0.5);
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #00fff5;
+        font-weight: 300;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        color: #fff;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #00fff5;
+    }
+
+    .transaction-type-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+
+    .transaction-type-button {
+        flex: 1 0 30%;
+        padding: 12px;
+        margin: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid transparent;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .transaction-type-button.active {
+        background: rgba(0, 255, 245, 0.2);
+        border-color: #00fff5;
+        box-shadow: 0 0 10px rgba(0, 255, 245, 0.5);
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        background: #e94560;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+        background: #ff6b6b;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+    }
+
+    .result {
+        margin-top: 30px;
+        padding: 20px;
+        background: rgba(0, 255, 245, 0.1);
+        border-radius: 10px;
+        text-align: center;
+        font-size: 18px;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .result.show {
+        opacity: 1;
+    }
+
+    #cyber-shield {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 20px;
+    }
+
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <svg id="cyber-shield" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#00fff5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 8v8M8 12h8" stroke="#00fff5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h1>FRAUD DETECTION AI MODEL</h1>
+    <form id="fraud-detection-form">
+        <div class="transaction-type-buttons">
+            <button type="button" class="transaction-type-button" data-type="Transfer">Transfer</button>
+            <button type="button" class="transaction-type-button" data-type="Payment">Payment</button>
+            <button type="button" class="transaction-type-button" data-type="Cashout">Cashout</button>
+            <button type="button" class="transaction-type-button" data-type="CASH_IN">Cash In</button>
+            <button type="button" class="transaction-type-button" data-type="DEBIT">Debit</button>
+        </div>
+        <input type="hidden" id="type" name="type" required>
+        <div class="form-group">
+            <label for="amount">Amount:<br>
+                Amount of the transaction</label>
+            <input type="number" step="any" id="amount" name="amount" required>
+        </div>
+        <div class="form-group">
+            <label for="oldbalanceOrg">Old Balance (Origin):<br>
+                Blance before the transaction</label>
+            <input type="number" step="any" id="oldbalanceOrg" name="oldbalanceOrg" required>
+        </div>
+        <div class="form-group">
+            <label for="newbalanceDest">New Balance (Destination):<br>
+                New balance of recipient after the transaction</label>
+            <input type="number" step="any" id="newbalanceDest" name="newbalanceDest" required>
+        </div>
+        <button type="submit">Analyze Transaction</button>
+    </form>
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const form = document.getElementById('fraud-detection-form');
+    const result = document.getElementById('result');
+    const shield = document.getElementById('cyber-shield');
+    const typeButtons = document.querySelectorAll('.transaction-type-button');
+    const typeInput = document.getElementById('type');
+
+    gsap.to(shield, {duration: 2, rotation: 360, repeat: -1, ease: "none"});
+
+    typeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            typeButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            typeInput.value = this.dataset.type;
+        });
+    });
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!typeInput.value) {
+            alert('Please select a transaction type');
+            return;
+        }
+
+        shield.classList.add('pulse');
+        result.textContent = 'Analyzing...';
+        result.classList.add('show');
+
+        // Simulate API call
+        setTimeout(() => {
+            const randomValue = Math.random();
+            let prediction;
+            if (randomValue < 0.7) {
+                prediction = 'No fraud detected. Transaction appears to be legitimate.';
+                result.style.color = '#00ff00';
+            } else if (randomValue < 0.9) {
+                prediction = 'Potential fraud detected. Please review this transaction carefully.';
+                result.style.color = '#ff9900';
+            } else {
+                prediction = 'High probability of fraud! Transaction blocked for your safety.';
+                result.style.color = '#ff0000';
+            }
+
+            result.textContent = prediction;
+            shield.classList.remove('pulse');
+        }, 2000);
+    });
+});
+</script>
+</body></html>
